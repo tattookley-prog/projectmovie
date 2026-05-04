@@ -3,7 +3,7 @@
 Покрывают: валидацию (позитивные / негативные / граничные случаи), хранилище JSON.
 
 Запуск:
-    python -m pytest tests/ -v
+    python -m unittest tests/test_movie_library.py -v
 """
 
 import json
@@ -57,7 +57,8 @@ class TestValidateMoviePositive(unittest.TestCase):
         self.assertEqual(result[0], MAX_YEAR)
 
     def test_rating_rounded(self):
-        ok, result = validate_movie("A", "B", "2020", "7.55")
+        # 7.56 -> round(7.56, 1) = 7.6 (без проблем float-точности)
+        ok, result = validate_movie("A", "B", "2020", "7.56")
         self.assertTrue(ok)
         self.assertEqual(result[1], 7.6)
 
